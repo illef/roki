@@ -1,0 +1,24 @@
+actions:
+  - name: "🌐  Translate"
+    command: "dict.sh '{}'"
+
+  - name: "🔤  Deepl"
+    command: "deepl text --to ko '{}'"
+
+  - name: "🕰️  Epoch to Date"
+    command: "date -d @{} '+%Y-%m-%d %H:%M:%S'"
+
+  - name: "🔊  Speak"
+    command: "speak '{}'; echo {}"
+
+  - name: "💬  Explain"
+    command: "echo '{}' | aichat '한글로 의미를 설명해. markdown이 아닌 plaintext 형식으로 응답해'"
+
+  - name: "❓  Ask"
+    command: "aichat '{}'"
+
+  - name: " ✍️ Rewrite"
+    command: "echo '{}' | aichat 'Rewrite this sentences to make it sound more professional and formal while keeping the original message intact.'"
+
+  - name: "🕒  Print Now"
+    command: "date '+%Y-%m-%d %H:%M:%S'; date +%s"

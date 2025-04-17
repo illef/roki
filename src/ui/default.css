@@ -1,0 +1,61 @@
+window {
+    background-color: transparent;
+}
+
+.input-box-container {
+    background-color: white;
+}
+
+.input-box-icon {
+    margin: 10px;
+    color: #333;
+}
+
+.input-box-entry {
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline-color: #808080;
+    margin: 5px;
+    /* outline-style: none; */
+}
+
+.action-listview {
+    background: none;
+    border: none;
+    margin-top: 20px;
+}
+
+.action-listview row {
+    border: 0.5px solid #e0e0e0;
+}
+
+.action-listview row:selected {
+    background: #e0e0e0;
+    border: none;
+    outline: none;
+}
+
+.action-list-view-item-container {
+    padding: 10px;
+}
+
+.action-list-view-item-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    min-height: 0;
+}
+
+.output-container {
+    margin-top: 20px;
+    background-color: white;
+}
+
+textview {
+    padding: 20px;
+    font-family: "Iropke Batang";
+    font-size: 15px;
+    border-left: 6px solid #0056b3;
+    background-color: transparent;
+}
