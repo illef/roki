@@ -6,4 +6,7 @@ pub enum Msg {
     CommandActivated,
     OutputGenerated(String),
     InputChanged(String),
+    SelectNextAction,
+    SelectPrevAction,
+    CtrlEnterPressed,
 }

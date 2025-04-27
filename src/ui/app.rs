@@ -14,6 +14,8 @@ use crate::{
     },
 };
 
+use super::{APP_BROKER, action_list_view::ActionListViewInputMsg};
+
 pub struct AppInit {
     pub actions: Vec<Action>,
     pub input: String,
@@ -22,7 +24,7 @@ pub struct AppInit {
 pub struct App {
     input: String,
     input_box: Controller<InputBox>,
-    list_view: Controller<ActionListView>,
+    action_list_view: Controller<ActionListView>,
     action_worker: WorkerController<ActionWorker>,
     output_buffer: gtk::TextBuffer,
     output_string: String,
@@ -52,7 +54,7 @@ impl SimpleComponent for App {
                 set_orientation: gtk::Orientation::Vertical,
 
                 append = model.input_box.widget(),
-                append =  model.list_view.widget(),
+                append =  model.action_list_view.widget(),
 
                 append = &gtk::ScrolledWindow {
                     add_css_class: "output-container",
@@ -97,7 +99,7 @@ impl SimpleComponent for App {
             output_string: String::default(),
             input: app_init.input.clone(),
             input_box: InputBox::builder().launch(app_init.input).detach(),
-            list_view: ActionListView::builder().launch(list_view_items).detach(),
+            action_list_view: ActionListView::builder().launch(list_view_items).detach(),
             action_worker,
         };
 
@@ -122,6 +124,11 @@ impl SimpleComponent for App {
             Msg::ActionActivated(action) => {
                 self.action_worker.emit((action, self.input.clone()));
             }
+            Msg::CtrlEnterPressed => {
+                if let Some(action) = self.action_list_view.model().get_selected_action() {
+                    self.action_worker.emit((action, self.input.clone()));
+                }
+            }
             Msg::CommandActivated => {
                 self.has_buffer = true;
                 self.output_string = String::default();
@@ -135,6 +142,14 @@ impl SimpleComponent for App {
             Msg::InputChanged(input) => {
                 self.input = input;
             }
+            Msg::SelectNextAction => {
+                self.action_list_view
+                    .emit(ActionListViewInputMsg::SelectNextAction);
+            }
+            Msg::SelectPrevAction => {
+                self.action_list_view
+                    .emit(ActionListViewInputMsg::SelectPrevAction);
+            }
         }
     }
 }
@@ -142,10 +157,25 @@ impl SimpleComponent for App {
 fn add_key_pressed_event(window: &gtk::ApplicationWindow) {
     let event_controller = gtk::EventControllerKey::new();
 
-    event_controller.connect_key_pressed(|_, key, _, _| {
+    event_controller.connect_key_pressed(|_, key, _, modifier| {
         match key {
             gdk::Key::Escape => {
                 relm4::main_application().quit();
+            }
+            gdk::Key::j => {
+                if modifier.contains(gdk::ModifierType::CONTROL_MASK) {
+                    APP_BROKER.send(Msg::SelectNextAction);
+                }
+            }
+            gdk::Key::k => {
+                if modifier.contains(gdk::ModifierType::CONTROL_MASK) {
+                    APP_BROKER.send(Msg::SelectPrevAction);
+                }
+            }
+            gdk::Key::Return => {
+                if modifier.contains(gdk::ModifierType::CONTROL_MASK) {
+                    APP_BROKER.send(Msg::CtrlEnterPressed);
+                }
             }
             _ => (),
         }

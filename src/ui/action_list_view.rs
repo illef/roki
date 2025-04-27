@@ -6,6 +6,12 @@ use relm4::{
 
 use crate::{action::Action, message::Msg, ui::APP_BROKER};
 
+#[derive(Debug)]
+pub enum ActionListViewInputMsg {
+    SelectNextAction,
+    SelectPrevAction,
+}
+
 #[derive(Clone, PartialEq, Debug)]
 pub struct ActionListViewItem {
     pub action: Action,
@@ -52,10 +58,20 @@ pub struct ActionListView {
     list_view_wrapper: TypedListView<ActionListViewItem, gtk::SingleSelection>,
 }
 
+impl ActionListView {
+    pub fn get_selected_action(&self) -> Option<Action> {
+        let selected_idx = self.list_view_wrapper.selection_model.selected();
+
+        self.list_view_wrapper
+            .get(selected_idx)
+            .map(|typed_list_item| typed_list_item.borrow().action.clone())
+    }
+}
+
 #[relm4::component(pub)]
 impl SimpleComponent for ActionListView {
     type Init = Vec<ActionListViewItem>;
-    type Input = ();
+    type Input = ActionListViewInputMsg;
     type Output = Msg;
 
     view! {
@@ -97,5 +113,23 @@ impl SimpleComponent for ActionListView {
         ComponentParts { model, widgets }
     }
 
-    fn update(&mut self, _msg: Self::Input, _sender: ComponentSender<Self>) {}
+    fn update(&mut self, msg: Self::Input, _sender: ComponentSender<Self>) {
+        match msg {
+            ActionListViewInputMsg::SelectNextAction => {
+                let selected_idx = self.list_view_wrapper.selection_model.selected();
+
+                self.list_view_wrapper
+                    .selection_model
+                    .set_selected((selected_idx + 1) % self.list_view_wrapper.len());
+            }
+            ActionListViewInputMsg::SelectPrevAction => {
+                let selected_idx = self.list_view_wrapper.selection_model.selected();
+
+                self.list_view_wrapper.selection_model.set_selected(
+                    (selected_idx + self.list_view_wrapper.len() - 1)
+                        % self.list_view_wrapper.len(),
+                );
+            }
+        }
+    }
 }
