@@ -8,10 +8,6 @@ use std::{
 
 use crate::message::Msg;
 
-pub struct CommandOutput {
-    pub stdout: String,
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct Action {
     pub name: String,
