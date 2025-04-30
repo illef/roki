@@ -136,7 +136,8 @@ impl SimpleComponent for App {
             }
             Msg::OutputGenerated(output) => {
                 self.has_buffer = true;
-                self.output_string.push_str(&format!("{}\n", output));
+                self.output_string
+                    .push_str(&format!("{}\n", output.replace("**", "")));
                 self.output_buffer.set_text(&self.output_string);
             }
             Msg::InputChanged(input) => {
