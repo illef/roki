@@ -28,7 +28,7 @@ actions:
   - name: "🔤  Deepl"
     command: "deepl text --to ko '{}'"
 
-  - name: "🕰️  Epoch to Date"
+  - name: "📅 Epoch to Date"
     command: "date -d @{} '+%Y-%m-%d %H:%M:%S'"
 
   - name: "🔊  Speak"

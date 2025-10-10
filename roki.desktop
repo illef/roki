@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=roki
+Exec=/usr/local/bin/roki
+Icon=/usr/local/share/icons/hicolor/scalable/apps/roki.png
+Type=Application
+Categories=Utility;
