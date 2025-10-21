@@ -41,10 +41,6 @@ impl SimpleComponent for App {
         #[name = "window"]
         gtk::ApplicationWindow {
             set_title: Some("roki"),
-            set_resizable: false,
-            // TODO: config
-            set_default_width: 700,
-            set_modal: true,
             set_decorated: false,
             set_expand: true,
             set_vexpand: true,
