@@ -13,5 +13,6 @@ pub fn run_app(app_init: AppInit) {
     let app = RelmApp::new("illef.roki")
         .with_broker(&APP_BROKER)
         .with_args(vec![]);
+    app.allow_multiple_instances(true);
     app.run::<App>(app_init);
 }
