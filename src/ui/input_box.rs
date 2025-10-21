@@ -16,6 +16,7 @@ impl SimpleComponent for InputBox {
         gtk::Box {
             add_css_class: "input-box-container",
             set_orientation: gtk::Orientation::Horizontal,
+            set_vexpand: false,
 
             append = &gtk::Image {
                 add_css_class: "input-box-icon",

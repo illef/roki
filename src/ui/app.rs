@@ -53,11 +53,11 @@ impl SimpleComponent for App {
                 append =  model.action_list_view.widget(),
 
                 append = &gtk::ScrolledWindow {
+                    set_vexpand: true,
                     add_css_class: "output-container",
-                    #[watch]
-                    set_visible: model.has_buffer,
+                    set_visible: true,
 
-                    set_min_content_height: 500,
+                    // set_min_content_height: 500,
 
                     #[wrap(Some)]
                     set_child = &gtk::TextView {

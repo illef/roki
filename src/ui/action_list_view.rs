@@ -29,7 +29,6 @@ impl RelmListItem for ActionListViewItem {
     fn setup(_item: &gtk::ListItem) -> (Self::Root, Self::Widgets) {
         relm4::view! {
             my_box = gtk::Box {
-                set_vexpand: true,
                 add_css_class: "action-list-view-item-container",
 
                 #[name = "name_label"]
